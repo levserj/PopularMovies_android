@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.example.sd.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
+import info.movito.themoviedbapi.model.MovieDb;
+
 /**
  * Created by SD on 11.09.2016.
  */
@@ -32,7 +34,7 @@ public class DetailActivity extends AppCompatActivity{
 
     public static class DetailFragment extends Fragment {
         private static final String LOG_TAG = DetailActivity.class.getSimpleName();
-        private Movie movie;
+        private MovieDb movieDb;
 
 
         @Nullable
@@ -43,17 +45,26 @@ public class DetailActivity extends AppCompatActivity{
             Intent intent = getActivity().getIntent();
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             if (intent != null && intent.hasExtra("movie")) {
-                movie = (Movie) intent.getSerializableExtra("movie");
+                Movie movie = (Movie) intent.getSerializableExtra("movie");
+                movieDb = movie.getMovieDb();
+
                 ImageView imageView = ((ImageView) rootView.findViewById(R.id.poster_detail_activity));
-                String url = "http://image.tmdb.org/t/p/w185/" + movie.getMovieDb().getPosterPath();
-                Picasso.with(getContext()).load(url).into(imageView);
                 TextView title = (TextView)rootView.findViewById(R.id.title_detail_activity);
-                title.setText(movie.getMovieDb().getTitle());
-                title.setTextSize(25);
                 TextView stats = (TextView)rootView.findViewById(R.id.stats_detail_activity);
-                stats.setText("Release Date : " + movie.getMovieDb().getReleaseDate());
                 TextView description = (TextView)rootView.findViewById(R.id.description_detail_activity);
-                description.setText(movie.getMovieDb().getOverview());
+
+                String url = "http://image.tmdb.org/t/p/w185/" + movie.getMovieDb().getPosterPath();
+                String titleStr = movieDb.getTitle();
+                String releaseDate = movieDb.getReleaseDate();
+                Float averageVote = movieDb.getVoteAverage();
+                String overview = movieDb.getOverview();
+
+                Picasso.with(getContext()).load(url).into(imageView);
+                title.setText(titleStr);
+                title.setTextSize(25);
+                stats.setText("Release Date : " + releaseDate + "\n"
+                        + "Rating : " + averageVote);
+                description.setText(overview);
             }
             return rootView;
         }
