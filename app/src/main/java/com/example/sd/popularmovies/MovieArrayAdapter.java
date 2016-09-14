@@ -28,16 +28,16 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Movie movie = getItem(position);
+        ImageView imageView;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.grid_item_layout, parent, false);
+            imageView = (ImageView) convertView.findViewById(R.id.grid_item_image);
+        } else {
+            imageView = (ImageView) convertView;
         }
-
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.grid_item_image);
-        String url = "http://image.tmdb.org/t/p/w185/" + movie.getMovieDb().getPosterPath();
-        Log.i(LOG_TAG, "URL for Picasso poster download is : "+ url);
+        String url = "http://image.tmdb.org/t/p/w342/" + movie.getMovieDb().getPosterPath();
         Picasso.with(getContext()).load(url).into(imageView);
-        /*imageView.setImageResource(R.drawable.sample_0);*/
-        return convertView;
+        return imageView;
     }
 }
