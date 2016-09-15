@@ -5,4 +5,6 @@
     <string name="activity_detail">DetailActivity</string>
     <string name="title_sort_by_popularity">By Popularity</string>
     <string name="title_sort_by_rating">By Rating</string>
+    <string name="error_no_internet">Sorry: No internet connection</string>
+
 </resources>

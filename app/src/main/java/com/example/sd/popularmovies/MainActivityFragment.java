@@ -1,6 +1,9 @@
 package com.example.sd.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.sd.popularmovies.model.Movie;
 
@@ -61,7 +65,14 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void updateMovies(){
-        new FetchMovies().execute(sortBy);
+        if (isOnline()){
+            new FetchMovies().execute(sortBy);
+        } else {
+            Toast toast  = Toast.makeText(getContext(),
+                    R.string.error_no_internet,
+                    Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     @Override
@@ -85,6 +96,13 @@ public class MainActivityFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnected();
     }
 
     public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
@@ -114,7 +132,7 @@ public class MainActivityFragment extends Fragment {
                     movieArrayAdapter.add(movie);
             }
         }
-    }
 
+    }
 
 }
