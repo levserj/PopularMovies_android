@@ -64,6 +64,7 @@ public class MainActivityFragment extends Fragment {
         if (itemId == R.id.sort_rating){
             sortBy = "topRated";
         }
+        544
         updateMovies();*/
         return true;
     }
