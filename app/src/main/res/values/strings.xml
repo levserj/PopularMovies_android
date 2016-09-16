@@ -2,9 +2,30 @@
     <string name="app_name">PopularMovies</string>
     <string name="action_settings">Settings</string>
     <string name="poster_details">poster</string>
+
     <string name="activity_detail">DetailActivity</string>
+    <string name="activity_settings">SettingsActivity</string>
+
     <string name="title_sort_by_popularity">By Popularity</string>
     <string name="title_sort_by_rating">By Rating</string>
+
     <string name="error_no_internet">Sorry: No internet connection</string>
+
+    <string name="pref_language_ru">ru</string>
+    <string name="pref_language_title">Language</string>
+    <string name="pref_language_key">language</string>
+    <string name="pref_sorting_key">sorting</string>
+    <string name="pref_sorting_label">Sort By</string>
+
+
+    <string name="pref_sorting_options_popular">Most popular</string>
+    <string name="pref_sorting_options_rating">Top Rated</string>
+    <string name="pref_sorting_value_popular">popular</string>
+    <string name="pref_sorting_value_rating">topRated</string>
+
+    <string name="pref_language_options_ru">Russian</string>
+    <string name="pref_language_options_en">English</string>
+    <string name="pref_language_value_en">en</string>
+    <string name="pref_language_value_ru">ru</string>
 
 </resources>

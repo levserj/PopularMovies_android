@@ -2,9 +2,11 @@ package com.example.sd.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -32,7 +34,9 @@ import info.movito.themoviedbapi.model.MovieDb;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
-    private String sortBy = "popular";
+
+    private String language;
+    private String sorting;
 
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     public MovieArrayAdapter movieArrayAdapter;
@@ -53,20 +57,25 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
+/*        int itemId = item.getItemId();
         if (itemId == R.id.sort_popularty){
             sortBy = "popular";
         }
         if (itemId == R.id.sort_rating){
             sortBy = "topRated";
         }
-        updateMovies();
+        updateMovies();*/
         return true;
     }
 
     private void updateMovies(){
         if (isOnline()){
-            new FetchMovies().execute(sortBy);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+            language = pref.getString(getString(R.string.pref_language_key),
+                    getString(R.string.pref_language_value_ru));
+            sorting = pref.getString(getString(R.string.pref_sorting_key),
+                    getString(R.string.pref_sorting_value_popular));
+            new FetchMovies().execute(language, sorting);
         } else {
             Toast toast  = Toast.makeText(getContext(),
                     R.string.error_no_internet,
@@ -111,12 +120,12 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected List<Movie> doInBackground(String... params) {
             TmdbMovies movies = new TmdbApi("91ca123680c7da4ae30a546026abae71").getMovies();
-            Log.i(LOG_TAG, "In the DO IN Backround");
-            if (params[0].equals("popular")) {
-                movieDBList = movies.getPopularMovies("en", 1).getResults();
+
+            if (sorting.equals(getString(R.string.pref_sorting_value_popular))) {
+                movieDBList = movies.getPopularMovies(language, 1).getResults();
             }
-            if (params[0].equals("topRated")) {
-                movieDBList = movies.getTopRatedMovies("en", 1).getResults();
+            if (sorting.equals(getString(R.string.pref_sorting_value_rating))) {
+                movieDBList = movies.getTopRatedMovies(language, 1).getResults();
             }
             for (MovieDb movieDb : movieDBList){
                 moviesList.add(new Movie(movieDb));
