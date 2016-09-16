@@ -57,15 +57,10 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-/*        int itemId = item.getItemId();
-        if (itemId == R.id.sort_popularty){
-            sortBy = "popular";
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_refresh){
+            updateMovies();
         }
-        if (itemId == R.id.sort_rating){
-            sortBy = "topRated";
-        }
-        544
-        updateMovies();*/
         return true;
     }
 
