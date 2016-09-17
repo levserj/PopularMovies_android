@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="fill"
-    android:columnCount="3"
-    android:orientation="horizontal" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:gravity="center"
-        android:background="@color/black"
-        android:textColor="@color/white"
-        android:textAppearance="?android:attr/textSize"
-        android:id="@+id/title_detail_activity"
-        android:layout_row="0"
-        android:layout_column="0"
-        android:layout_gravity="fill"
-        android:layout_columnSpan="3"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/poster_detail_activity"
-        android:contentDescription="@string/poster_details"
-        android:layout_row="1"
-        android:layout_column="0"
-         />
+        android:columnCount="3">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/stats_detail_activity"
-        android:layout_row="1"
-        android:layout_column="1"
-        android:layout_gravity="center"
-        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/description_detail_activity"
-        android:layout_row="2"
-        android:layout_column="0"
-        android:layout_gravity="fill"
-        android:layout_columnSpan="3"/>
+        <TextView
+            android:id="@+id/title_detail_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_column="0"
+            android:layout_columnSpan="3"
+            android:layout_gravity="fill"
+            android:layout_row="0"
+            android:background="@color/black"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textSize"
+            android:textColor="@color/white" />
 
-</GridLayout>
+        <ImageView
+            android:id="@+id/poster_detail_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:contentDescription="@string/poster_details" />
+
+        <TextView
+            android:id="@+id/stats_detail_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:layout_row="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/description_detail_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_columnSpan="3"
+            android:layout_gravity="fill"
+            android:layout_row="2"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </GridLayout>
+</ScrollView>
     <!--android:layout_columnSpan="2"-->
