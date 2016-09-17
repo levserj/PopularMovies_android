@@ -15,6 +15,7 @@ import com.example.sd.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.core.StringIdElement;
 
 /**
  * Created by SD on 11.09.2016.
@@ -50,7 +51,8 @@ public class DetailActivity extends AppCompatActivity{
 
                 ImageView imageView = ((ImageView) rootView.findViewById(R.id.poster_detail_activity));
                 TextView title = (TextView)rootView.findViewById(R.id.title_detail_activity);
-                TextView stats = (TextView)rootView.findViewById(R.id.stats_detail_activity);
+                TextView release = (TextView)rootView.findViewById(R.id.release_detail_activity);
+                TextView rating = (TextView)rootView.findViewById(R.id.rating_detail_activity);
                 TextView description = (TextView)rootView.findViewById(R.id.description_detail_activity);
 
                 String url = "http://image.tmdb.org/t/p/w185/" + movie.getMovieDb().getPosterPath();
@@ -62,8 +64,13 @@ public class DetailActivity extends AppCompatActivity{
                 Picasso.with(getContext()).load(url).into(imageView);
                 title.setText(titleStr);
                 title.setTextSize(25);
-                stats.setText("Release Date : " + releaseDate + "\n"
-                        + "Rating : " + averageVote);
+                release.setText(String.format(getString(
+                        R.string.release_field_detail_activity), releaseDate));
+                rating.setText(String.format(getString(
+                        R.string.rating_field_detail_activity), averageVote));
+
+/*                stats.setText("Release Date : " + releaseDate + "\n"
+                        + "Rating : " + averageVote);*/
                 description.setText(overview);
             }
             return rootView;

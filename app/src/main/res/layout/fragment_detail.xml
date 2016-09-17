@@ -29,15 +29,27 @@
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_row="1"
+            android:layout_rowSpan="3"
             android:contentDescription="@string/poster_details" />
 
         <TextView
-            android:id="@+id/stats_detail_activity"
+            android:id="@+id/release_detail_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:layout_gravity="center"
             android:layout_row="1"
+            android:layout_gravity="center"
+
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/rating_detail_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="2"
+
+            android:layout_gravity="center"
+
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -47,7 +59,7 @@
             android:layout_column="0"
             android:layout_columnSpan="3"
             android:layout_gravity="fill"
-            android:layout_row="2"
+            android:layout_row="4"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </GridLayout>
