@@ -36,6 +36,7 @@ public class DetailActivity extends AppCompatActivity{
     public static class DetailFragment extends Fragment {
         private static final String LOG_TAG = DetailActivity.class.getSimpleName();
         private MovieDb movieDb;
+        private String urlPrefix = "http://image.tmdb.org/t/p/w185/";
 
 
         @Nullable
@@ -55,13 +56,13 @@ public class DetailActivity extends AppCompatActivity{
                 TextView rating = (TextView)rootView.findViewById(R.id.rating_detail_activity);
                 TextView description = (TextView)rootView.findViewById(R.id.description_detail_activity);
 
-                String url = "http://image.tmdb.org/t/p/w185/" + movie.getMovieDb().getPosterPath();
+                String posterUrl = urlPrefix + movie.getMovieDb().getPosterPath();
                 String titleStr = movieDb.getTitle();
                 String releaseDate = movieDb.getReleaseDate();
                 Float averageVote = movieDb.getVoteAverage();
                 String overview = movieDb.getOverview();
 
-                Picasso.with(getContext()).load(url).into(imageView);
+                Picasso.with(getContext()).load(posterUrl).into(imageView);
                 title.setText(titleStr);
                 title.setTextSize(25);
                 release.setText(String.format(getString(
