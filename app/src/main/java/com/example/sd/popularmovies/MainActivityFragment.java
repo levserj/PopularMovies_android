@@ -47,6 +47,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PreferenceManager.setDefaultValues(getContext(), R.xml.pref_general, false);
         setHasOptionsMenu(true);
     }
 
