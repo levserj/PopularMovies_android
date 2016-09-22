@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,10 +37,10 @@ import info.movito.themoviedbapi.model.MovieDb;
  */
 public class MainActivityFragment extends Fragment {
 
-    private String language;
-    private String sorting;
-
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
+
+    private SharedPreferences pref;
+
     public MovieArrayAdapter movieArrayAdapter;
 
     public MainActivityFragment() {
@@ -47,8 +49,9 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferenceManager.setDefaultValues(getContext(), R.xml.pref_general, false);
         setHasOptionsMenu(true);
+        PreferenceManager.setDefaultValues(getContext(), R.xml.pref_general, false);
+        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     @Override
@@ -59,22 +62,18 @@ public class MainActivityFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.action_refresh){
+        if (itemId == R.id.action_refresh) {
             updateMovies();
         }
         return true;
     }
 
-    private void updateMovies(){
-        if (isOnline()){
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-            language = pref.getString(getString(R.string.pref_language_key),
-                    getString(R.string.pref_language_value_ru));
-            sorting = pref.getString(getString(R.string.pref_sorting_key),
-                    getString(R.string.pref_sorting_value_popular));
-            new FetchMovies().execute(language, sorting);
+    private void updateMovies() {
+        if (isOnline()) {
+
+            new FetchMovies().execute();
         } else {
-            Toast toast  = Toast.makeText(getContext(),
+            Toast toast = Toast.makeText(getContext(),
                     R.string.error_no_internet,
                     Toast.LENGTH_LONG);
             toast.show();
@@ -91,6 +90,17 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        FloatingActionButton forward = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        forward.setImageDrawable(getResources().getDrawable(R.drawable.forward));
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int nextPage = Integer.parseInt(pref.getString(getString(R.string.pref_page_key),
+                        getString(R.string.pref_page_def_value))) + 1;
+                pref.edit().putString(getString(R.string.pref_page_key), String.valueOf(nextPage)).apply();
+                updateMovies();
+            }
+        });
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
         movieArrayAdapter = new MovieArrayAdapter(getContext(), new ArrayList<Movie>());
         gridView.setAdapter(movieArrayAdapter);
@@ -114,17 +124,24 @@ public class MainActivityFragment extends Fragment {
     public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         List<Movie> moviesList = new ArrayList<>();
         List<MovieDb> movieDBList = new ArrayList<>();
+        int page = Integer.parseInt(pref.getString(getString(R.string.pref_page_key),
+                getString(R.string.pref_page_def_value)));
+        String language = pref.getString(getString(R.string.pref_language_key),
+                getString(R.string.pref_language_value_ru));
+        String sorting = pref.getString(getString(R.string.pref_sorting_key),
+                getString(R.string.pref_sorting_value_popular));
+
         @Override
         protected List<Movie> doInBackground(String... params) {
             TmdbMovies movies = new TmdbApi("91ca123680c7da4ae30a546026abae71").getMovies();
 
             if (sorting.equals(getString(R.string.pref_sorting_value_popular))) {
-                movieDBList = movies.getPopularMovies(language, 1).getResults();
+                movieDBList = movies.getPopularMovies(language, page).getResults();
             }
             if (sorting.equals(getString(R.string.pref_sorting_value_rating))) {
-                movieDBList = movies.getTopRatedMovies(language, 1).getResults();
+                movieDBList = movies.getTopRatedMovies(language, page).getResults();
             }
-            for (MovieDb movieDb : movieDBList){
+            for (MovieDb movieDb : movieDBList) {
                 moviesList.add(new Movie(movieDb));
             }
             return moviesList;

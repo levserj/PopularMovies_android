@@ -31,5 +31,8 @@
 
     <string name="release_field_detail_activity">Release Date : %1$s</string>
     <string name="rating_field_detail_activity">Rating : %1$s</string>
+    <string name="pref_page_title">Page</string>
+    <string name="pref_page_key">page</string>
+    <string name="pref_page_def_value">1</string>
 
 </resources>
