@@ -17,12 +17,4 @@
         android:entries="@array/pref_sorting_options"
         android:entryValues="@array/pref_sorting_values"/>
 
-
-<!--    <EditTextPreference
-        android:title="@string/pref_page_title"
-        android:key="@string/pref_page_key"
-
-        />-->
-
 </PreferenceScreen>
-    <!--android:defaultValue="@string/pref_page_def_value"-->

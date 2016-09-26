@@ -18,7 +18,6 @@
     <string name="pref_sorting_key">sorting</string>
     <string name="pref_sorting_label">Sort By</string>
 
-
     <string name="pref_sorting_options_popular">Most popular</string>
     <string name="pref_sorting_options_rating">Top Rated</string>
     <string name="pref_sorting_value_popular">popular</string>
@@ -31,8 +30,5 @@
 
     <string name="release_field_detail_activity">Release Date : %1$s</string>
     <string name="rating_field_detail_activity">Rating : %1$s</string>
-    <string name="pref_page_title">Page</string>
-    <string name="pref_page_key">page</string>
-    <string name="pref_page_def_value">1</string>
 
 </resources>

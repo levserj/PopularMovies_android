@@ -53,7 +53,6 @@ public class MainActivityFragment extends Fragment {
         setHasOptionsMenu(true);
         PreferenceManager.setDefaultValues(getContext(), R.xml.pref_general, false);
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        /*pref.edit().putInt("page", 1).apply();*/
     }
 
     @Override
@@ -70,46 +69,11 @@ public class MainActivityFragment extends Fragment {
         return true;
     }
 
-    private void updateMovies() {
-        if (isOnline()) {
-
-            new FetchMovies().execute();
-        } else {
-            Toast toast = Toast.makeText(getContext(),
-                    R.string.error_no_internet,
-                    Toast.LENGTH_LONG);
-            toast.show();
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateMovies();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        /*FloatingActionButton forward = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        forward.setImageDrawable(getResources().getDrawable(R.drawable.next));
-        forward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int nextPage = pref.getInt("page", 1)
-                        *//*Integer.parseInt(pref.getString(getString(R.string.pref_page_key),
-                        getString(R.string.pref_page_def_value))) *//*+ 1;
-                pref.edit().putInt("page", nextPage).apply(); *//*putString(getString(R.string.pref_page_key), String.valueOf(nextPage)).apply()*//*
-                updateMovies();
-            }
-        });*/
-        int currentPage = pref.getInt("page", 1);
-        Log.v(LOG_TAG, String.valueOf(currentPage));
-        Log.v(LOG_TAG, (String.valueOf(currentPage == 1)));
         ImageButton previous = (ImageButton) rootView.findViewById(R.id.button_previous);
-
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +95,7 @@ public class MainActivityFragment extends Fragment {
                 updateMovies();
             }
         });
+
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
         movieArrayAdapter = new MovieArrayAdapter(getContext(), new ArrayList<Movie>());
         movieArrayAdapter.notifyDataSetChanged();
@@ -143,6 +108,23 @@ public class MainActivityFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateMovies();
+    }
+
+    private void updateMovies() {
+        if (isOnline()) {
+            new FetchMovies().execute();
+        } else {
+            Toast toast = Toast.makeText(getContext(),
+                    R.string.error_no_internet,
+                    Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     public boolean isOnline() {
@@ -165,19 +147,15 @@ public class MainActivityFragment extends Fragment {
     public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
         List<Movie> moviesList = new ArrayList<>();
         List<MovieDb> movieDBList = new ArrayList<>();
-        int page = pref.getInt("page", 1); /*Integer.parseInt(pref.getString(getString(R.string.pref_page_key),
-                getString(R.string.pref_page_def_value)));*/
+        int page = pref.getInt("page", 1);
         String language = pref.getString(getString(R.string.pref_language_key),
                 getString(R.string.pref_language_value_ru));
         String sorting = pref.getString(getString(R.string.pref_sorting_key),
                 getString(R.string.pref_sorting_value_popular));
 
-
         @Override
         protected List<Movie> doInBackground(String... params) {
-
             TmdbMovies movies = new TmdbApi("91ca123680c7da4ae30a546026abae71").getMovies();
-
             if (sorting.equals(getString(R.string.pref_sorting_value_popular))) {
                 movieDBList = movies.getPopularMovies(language, page).getResults();
             }
@@ -198,10 +176,6 @@ public class MainActivityFragment extends Fragment {
                     movieArrayAdapter.add(movie);
             }
             showOrHidePreviousButton(page);
-
-
         }
-
     }
-
 }
